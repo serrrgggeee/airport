@@ -7,9 +7,6 @@ from import_export.admin import ImportExportActionModelAdmin
 
 from import_export import resources
 from .models import City, Airport, Country
-class CityWidget(widgets.ForeignKeyWidget):
-	def clean(self, value, *args):
-		return self.model.objects.get_or_create(name = value)[0]
 class Myfield(fields.Field):
 	def clean(self, data):
 		"""
@@ -20,8 +17,7 @@ class Myfield(fields.Field):
 		ecity = a[4]
 		ecountry = a[6]
 		continent = a[7]
-		args =(ecity, ecountry, continent)
-		
+		args =(ecity, ecountry, continent)		
 		try:
 			value = data[self.column_name]
 		except KeyError:
@@ -30,17 +26,14 @@ class Myfield(fields.Field):
 			value = self.widget.clean(value, *args)
 		except ValueError as e:
 			raise ValueError("Column '%s': %s" % (self.column_name, e))
-
 		if not value and self.default != NOT_PROVIDED:
 			if callable(self.default):
 				return self.default()
-			return self.default
-		
-		
+			return self.default		
 		return value
-        
-		
-	#continent = 'dfdfdf'
+class CityWidget(widgets.ForeignKeyWidget):
+	def clean(self, value, *args):
+		return self.model.objects.get_or_create(name = value, ename=args[0])[0]
 class CountryWidget(widgets.ForeignKeyWidget):
 	def clean(self, value, *args):
 		return self.model.objects.get_or_create(name = value, ename= args[1], continent=args[2])[0]
@@ -49,7 +42,7 @@ class CountryWidget(widgets.ForeignKeyWidget):
 class Placeresources(resources.ModelResource):
 	def get_instance(self, instance_loader, row):
 		return False
-	city = fields.Field(column_name='city', attribute='city', widget=CityWidget(City, 'name'))
+	city = Myfield(column_name='city', attribute='city', widget=CityWidget(City, 'name'))
 	country = Myfield(column_name='country', attribute='country', widget=CountryWidget(Country, 'name'))
 
 	class Meta:		
