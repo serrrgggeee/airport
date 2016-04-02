@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+ <div class="products-list">
+		 {% for place in place_list %}
+					<p>Аэропорт: <a href="/airport/{{place.id }}/">{{ place.name}}</a></p>
+                    <p>Город: <a href="/city/{{place.city.id }}/">{{ place.city}}</a></p>
+                    <p>Страна: <a href="/country/{{place.country.id }}/">{{ place.country}}</a></p>
+           
+        {% endfor %}
+    </div>
+{% endblock %}

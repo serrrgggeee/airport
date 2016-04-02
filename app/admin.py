@@ -17,13 +17,17 @@ class Myfield(fields.Field):
 		appropriate Python object and returns it.
 		"""
 		a=data.values()
-		continent = a[4]
+		ecity = a[4]
+		ecountry = a[6]
+		continent = a[7]
+		args =(ecity, ecountry, continent)
+		
 		try:
 			value = data[self.column_name]
 		except KeyError:
 			raise KeyError("Column '%s' not found in dataset. Available ""columns are: %s" % (self.column_name,list(data.keys())))
 		try:
-			value = self.widget.clean(value, continent)
+			value = self.widget.clean(value, *args)
 		except ValueError as e:
 			raise ValueError("Column '%s': %s" % (self.column_name, e))
 
@@ -38,11 +42,8 @@ class Myfield(fields.Field):
 		
 	#continent = 'dfdfdf'
 class CountryWidget(widgets.ForeignKeyWidget):
-	def clean(self, value, continent):
-		#str=self.args
-		#print str[0]
-		continent
-		return self.model.objects.get_or_create(name = value, continent=continent)[0]
+	def clean(self, value, *args):
+		return self.model.objects.get_or_create(name = value, ename= args[1], continent=args[2])[0]
 
 	
 class Placeresources(resources.ModelResource):
@@ -53,7 +54,7 @@ class Placeresources(resources.ModelResource):
 
 	class Meta:		
 		model = Airport
-		fields = ('id','name','country','city','oon','iata','ngrad', 'nmin', 'wgrad', 'wmin', 'typetime')
+		fields = ('id','name','ename','country','city','oon','iata','ngrad', 'nmin', 'wgrad', 'wmin', 'typetime')
 		export_order = fields
 		skip_unchanged = True
         report_skipped = False
@@ -67,9 +68,10 @@ class Placeresources(resources.ModelResource):
 class AirportAdmin(ImportExportActionModelAdmin,admin.ModelAdmin):
     resource_class = Placeresources
     fieldsets = [
-        ('name', {'fields':['name']}),
-        ('city', {'fields':['city']}),
-        ('country', {'fields':['country']}),
+        ('Название', {'fields':['name']}),
+		('Английское Название', {'fields':['ename']}),
+        ('Город', {'fields':['city']}),
+        ('Страна', {'fields':['country']}),
         ('iata', {'fields':['iata']}),
         ('oon', {'fields':['oon']}),
         ('ngrad', {'fields':['ngrad']}),
@@ -77,6 +79,7 @@ class AirportAdmin(ImportExportActionModelAdmin,admin.ModelAdmin):
         ('wgrad', {'fields':['wgrad']}),
         ('wmin', {'fields':['wmin']}),
         ('typetime', {'fields':['typetime']}),
+		('slug', {'fields':['slug']}),
     ]
 admin.site.register(Airport, AirportAdmin)
 admin.site.register(Country)
