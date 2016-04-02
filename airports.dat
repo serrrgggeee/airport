@@ -1,0 +1,5 @@
+id,name,ename,city,'ecity',country,'ecountry',continent,oon,iata,ngrad,nmin,wgrad,wmin,typetime
+1,"Горока","Goroka","Горока","Goroka","Папуа Новая Гвинея","Papua New Guinea","europ","GKA","AYGA",-6.081689,145.391881,5282,10,"U"
+2,"Маданг","Madang","Маданг","Madang","Папуа Новая Гвинея","Papua New Guinea","africa","MAG","AYMD",-5.207083,145.7887,20,10,"U"
+3,"Маунт Хаген","Mount Hagen","Маунт Хаген","Mount Hagen","Папуа Новая Гвинея","Papua New Guinea","azia","HGU","AYMH",-5.826789,144.295861,5388,10,"U"
+3,"Домодедово","Domodedovo","Москва","Moskow","Россия","Russian","america","HGU","AYMH",-5.826789,144.295861,5388,10,"U"
