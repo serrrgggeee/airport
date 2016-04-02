@@ -1,42 +1,70 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.contrib import admin
-from import_export import fields,widgets
+from import_export import fields,widgets, resources
 from import_export.widgets import ForeignKeyWidget
-from import_export.admin import ImportExportModelAdmin
 from import_export.admin import ImportExportActionModelAdmin
-from import_export.admin import ImportMixin, ExportMixin
-from django.contrib.admin import DateFieldListFilter
-from import_export import resources, fields
 
 from import_export import resources
 from .models import City, Airport, Country
-class PlaceWidget(widgets.ForeignKeyWidget):
-	def clean(self, value):
-		print value
-		return self.model.objects.get_or_create(name = value,continent = value )[0]
-class PlaceWidget1(widgets.ForeignKeyWidget):
-	def clean(self, value):
-		return self.model.objects.get_or_create(continent = value)[0]
-    
+class CityWidget(widgets.ForeignKeyWidget):
+	def clean(self, value, *args):
+		return self.model.objects.get_or_create(name = value)[0]
+class Myfield(fields.Field):
+	def clean(self, data):
+		"""
+		Translates the value stored in the imported datasource to an
+		appropriate Python object and returns it.
+		"""
+		a=data.values()
+		continent = a[4]
+		try:
+			value = data[self.column_name]
+		except KeyError:
+			raise KeyError("Column '%s' not found in dataset. Available ""columns are: %s" % (self.column_name,list(data.keys())))
+		try:
+			value = self.widget.clean(value, continent)
+		except ValueError as e:
+			raise ValueError("Column '%s': %s" % (self.column_name, e))
+
+		if not value and self.default != NOT_PROVIDED:
+			if callable(self.default):
+				return self.default()
+			return self.default
+		
+		
+		return value
+        
+		
+	#continent = 'dfdfdf'
+class CountryWidget(widgets.ForeignKeyWidget):
+	def clean(self, value, continent):
+		#str=self.args
+		#print str[0]
+		continent
+		return self.model.objects.get_or_create(name = value, continent=continent)[0]
+
+	
 class Placeresources(resources.ModelResource):
-	#city = fields.Field(column_name='city', attribute='city', widget=PlaceWidget(City, 'name'))
-	country = fields.Field(column_name='country', attribute='country', widget=PlaceWidget(Country, 'name'))
-	#continent = fields.Field(column_name='continent', attribute='continent', widget=PlaceWidget(Country, 'continent'))
-	name = fields.Field(attribute='name',column_name='name')
+	def get_instance(self, instance_loader, row):
+		return False
+	city = fields.Field(column_name='city', attribute='city', widget=CityWidget(City, 'name'))
+	country = Myfield(column_name='country', attribute='country', widget=CountryWidget(Country, 'name'))
+
 	class Meta:		
 		model = Airport
-		fields = ('name','country','oon','iata','ngrad', 'nmin', 'wgrad', 'wmin', 'typetime')
+		fields = ('id','name','country','city','oon','iata','ngrad', 'nmin', 'wgrad', 'wmin', 'typetime')
 		export_order = fields
 		skip_unchanged = True
         report_skipped = False
 
-	def get_instance(self, instance_loader, row):
-		# Returning False prevents us from looking in the
-		# database for rows that already exist
-		return False
 
-class AirportAdmin(ImportExportModelAdmin,admin.ModelAdmin):
+
+
+
+
+
+class AirportAdmin(ImportExportActionModelAdmin,admin.ModelAdmin):
     resource_class = Placeresources
     fieldsets = [
         ('name', {'fields':['name']}),
