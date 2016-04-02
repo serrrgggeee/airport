@@ -1,0 +1,180 @@
+/*!
+ * Yamm!
+ * Yet another megamenu for Bootstrap
+ * http://geedmo.github.com/yamm
+ *
+ * https://github.com/geedmo
+ */
+.yamm .nav,
+.yamm .dropup,
+.yamm .dropdown,
+.yamm .collapse {
+  position: static;
+}
+.yamm .navbar-inner,
+.yamm .container {
+  position: relative;
+}
+.yamm .dropdown-menu {
+  left: auto;
+}
+.yamm .dropdown-menu > li {
+  display: block;
+}
+.yamm .dropdown-submenu .dropdown-menu {
+  left: 100%;
+}
+.yamm .nav.pull-right .dropdown-menu {
+  right: 0;
+}
+.yamm .yamm-content {
+  padding: 20px 30px;
+  *zoom: 1;
+}
+.yamm .yamm-content:before,
+.yamm .yamm-content:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.yamm .yamm-content:after {
+  clear: both;
+}
+.yamm.navbar .nav > li > .dropdown-menu:after,
+.yamm.navbar .nav > li > .dropdown-menu:before {
+  display: none;
+}
+.yamm .dropdown.yamm-fullwidth .dropdown-menu {
+  width: 100%;
+  left: 0;
+  right: 0;
+}
+@media (max-width: 969px) {
+  .yamm .dropdown.yamm-fullwidth .dropdown-menu {
+    width: auto;
+  }
+  .yamm .yamm-content {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .yamm .dropdown-menu > li > ul {
+    display: block;
+  }
+}
+
+.nav-collapse.collapse {
+    height: auto;
+    overflow: visible;
+    display: block;
+}
+.navbar .brand {
+
+    padding: 5px 20px 10px;
+
+}
+
+.main_sum {
+    margin-bottom: 24px;
+    margin-top: 10px;
+}
+.main_sum_img {
+    width: 150px;
+}
+@media (min-width: 1200px) {
+.container {
+width: 1000px;
+}
+}
+
+
+/* head*/
+
+.input_search {
+    border: 1px solid #ccc;
+    padding: 3px;
+    padding-left: 6px;
+    border-radius: 2px;
+    margin-top: -1px;
+    width: 200px;
+    margin-right: 6px;
+    -webkit-transition: all 100ms ease-out;
+    -moz-transition: all 100ms ease-out;
+    -ms-transition: all 100ms ease-out;
+    -o-transition: all 100ms ease-out;
+    transition: all 100ms ease-out;
+}
+
+#show_search {
+    width: 17px;
+    height: 18px;
+    display: inline-block;
+    background: url('/static/img/sprite.png') -16px 0 no-repeat;
+    text-indent: -10000px;
+    margin: 0 17px 0 0;
+    cursor: pointer;
+    border: none;
+}
+.language-list {
+    margin: 6px 7px 0 0;
+    padding: 0;
+    list-style: none;
+    float: right;
+    font-size: 11px;
+    line-height: 15px;
+}
+
+/* vehicle*/
+
+.technic h1 {
+    font-weight: normal;
+    font-size: 28px;
+    line-height: 32px;
+    font-family: 'galsbold';
+    margin: 0 0 12px 0;
+}
+.technic h2 {
+    font-weight: normal;
+    font-size: 28px;
+    line-height: 32px;
+    font-family: 'galsbold';
+    margin: 0 0 28px 0;
+}
+.topundercat{
+    margin-top: 20px;
+}
+
+
+.media a {
+    color: #3e5872;
+    outline: none;
+    text-decoration: underline;
+    font-size: 15px;
+    font-weight: 400 !important;
+}
+.media_cat {
+   min-height: 220px
+}
+.media li {
+    list-style: none;
+}
+textarea.form-control {
+    height: 114px;
+}
+
+.form-control {
+    display: block;
+    width: 95%;
+    height: 24px;
+    padding: 3px 10px;
+    font-size: 13px;
+    line-height: 1.42857143;
+    color: #352F2F;
+    background-color: #FAFBFA;
+    background-image: none;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
